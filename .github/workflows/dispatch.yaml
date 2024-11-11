@@ -1,0 +1,19 @@
+# .github/workflows/dispatch.yml in Repository A
+name: Trigger Dispatch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  send_dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger repository_dispatch
+        run: |
+          curl -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/trpubins/demo-B/dispatches \
+          -d '{"event_type":"triggered_by_repo_A"}'
