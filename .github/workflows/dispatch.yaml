@@ -7,7 +7,16 @@ on:
       - main
 
 jobs:
+  auto-tag:
+    uses: topshelfsoftware/.github/.github/workflows/repo-auto-tag.yaml@main
+  
+  auto-release:
+    needs: auto-tag
+    
+    uses: topshelfsoftware/.github/.github/workflows/repo-create-release.yaml@main
+
   send_dispatch:
+    needs: auto-tag
     runs-on: ubuntu-latest
     steps:
       - name: Trigger repository_dispatch
