@@ -1,0 +1,19 @@
+# .github/workflows/dispatch.yml in Repository A
+name: Trigger Dispatch for Portfolio
+
+on:
+  push:
+    branches:
+      - devl
+
+jobs:
+  send_dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger repository_dispatch
+        run: |
+          curl -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: token ${{ secrets.REPO_B_PAT }}" \
+          https://api.github.com/repos/trpubins/portfolio-deploy/dispatches \
+          -d '{"event_type":"triggered_by_trpubins/demo"}'
